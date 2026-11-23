@@ -1,0 +1,22 @@
+[project]
+name = "plasma-mcp"
+version = "0.0.1"
+description = "MCP server that lets agents see and control a KDE Plasma 6 desktop through D-Bus, safely"
+requires-python = ">=3.12"
+dependencies = ["mcp>=2,<3", "dbus-next>=0.2.3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+plasma-mcp = "plasma_mcp.server:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["plasma_mcp*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
