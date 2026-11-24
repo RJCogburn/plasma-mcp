@@ -17,8 +17,9 @@ NEXT (v1):
 1. Windows: `list_windows`, `focus`, `move_to_desktop`, `tile` — port the KWin-script-over-D-Bus
    pattern from `reference/cmc/automation.py` (script calls back into our own D-Bus object).
 2. Notifications: `notify`, `watch_notifications` (org.freedesktop.Notifications).
-3. Theming: `apply_theme` via plasma-apply-* (later: reuse KDE Customizer's TOML spec;
-   NOTE its repo was not found at ~/Desktop/Dev/kde-customizer on 2026-11-23).
+3. Theming: `apply_theme` = wrap KDE Customizer (~/Desktop/Dev/kde-customizer, github RJCogburn/kde-customizer):
+   `kdec check` / `kdec apply SPEC --dry-run` first, real apply only after; snapshot the rc files it touches.
+   `kdec ai-guide` gives agents the spec format. Shell out to `kdec` rather than importing it.
 LATER: panels/widgets (plasmashell evaluateScript, `dangerous` tier), clipboard (klipper),
 shortcuts (kglobalaccel), event streaming, GNOME backend.
 
