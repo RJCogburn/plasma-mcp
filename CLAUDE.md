@@ -22,7 +22,11 @@ Theming (tools/theme.py): current_theme, theme_guide, check_theme, apply_theme �
 (KDE Customizer). apply snapshots THEME_FILES (+LAYOUT_FILES with layout=True, which needs the
 'dangerous' tier) and records reapply commands (plasma-apply-colorscheme/desktoptheme/cursortheme,
 /usr/lib/plasma-changeicons) that undo runs BEFORE copying files back, so the live desktop re-skins.
-Read paths + dry run verified 2026-11-23; real apply/undo round trip NOT yet run (changes the live desktop — ask first).
+LESSON: theme values usually live in ~/.config/kdedefaults/* (written by plasma-apply-lookandfeel), not the
+user rc files — restoring only user rc files leaves the new theme active. Snapshots include kdedefaults/ and
+undo first re-applies the previous LnF package (never with --resetLayout).
+Live round trip (Midnight -> undo -> Origin600I Light) VERIFIED 2026-11-23: theme + all files byte-identical.
+Live apply tests change the user's desktop — ask first.
 NEXT (v1):
 2. Notifications: `notify`, `watch_notifications` (org.freedesktop.Notifications).
 LATER: panels/widgets (plasmashell evaluateScript, `dangerous` tier), clipboard (klipper),

@@ -15,9 +15,12 @@ from pathlib import Path
 from .. import policy, snapshots
 from .settings import get_setting
 
-# Files plasma-apply-lookandfeel + kdec's install.sh can write.
-THEME_FILES = ["kdeglobals", "kwinrc", "plasmarc", "kcminputrc", "ksplashrc", "konsolerc",
-               "kscreenlockerrc", "breezerc"]
+# Files plasma-apply-lookandfeel + kdec's install.sh can write. The kdedefaults/ layer is
+# where plasma-apply-lookandfeel puts the package's values; user rc files often don't set
+# ColorScheme etc. at all, so without it an undo leaves the new theme in effect.
+_RC = ["kdeglobals", "kwinrc", "plasmarc", "kcminputrc", "ksplashrc"]
+THEME_FILES = _RC + ["konsolerc", "kscreenlockerrc", "breezerc"] + \
+    [f"kdedefaults/{f}" for f in _RC + ["package"]]
 LAYOUT_FILES = ["plasma-org.kde.plasma.desktop-appletsrc", "plasmashellrc"]
 
 
@@ -67,6 +70,8 @@ def check_theme(spec: str) -> str:
 
 def _reapply_commands(cur: dict) -> list[list[str]]:
     cmds = []
+    if cur["look_and_feel"]:  # rewrites kdedefaults/ and re-skins; never --resetLayout here
+        cmds.append(["plasma-apply-lookandfeel", "-a", cur["look_and_feel"]])
     if cur["color_scheme"]:
         cmds.append(["plasma-apply-colorscheme", cur["color_scheme"]])
     if cur["plasma_style"]:
