@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from mcp.server.mcpserver import MCPServer
 
-from .tools import media, settings, windows
+from .tools import media, settings, theme, windows
 
 mcp = MCPServer("plasma")
 
@@ -67,6 +67,33 @@ async def tile_window(window_id: str, mode: str) -> dict:
     """Tile a window: left, right, top, bottom (quick tile halves), maximize, unmaximize.
     Activates the window first."""
     return await windows.tile(window_id, mode)
+
+
+@mcp.tool()
+def current_theme() -> dict:
+    """Current look-and-feel package, color scheme, Plasma style, icons and cursor."""
+    return theme.current_theme()
+
+
+@mcp.tool()
+def theme_guide() -> str:
+    """KDE Customizer's theme spec format (TOML). Read this before writing a theme spec."""
+    return theme.theme_guide()
+
+
+@mcp.tool()
+def check_theme(spec: str) -> str:
+    """Validate a KDE Customizer theme spec (.toml path): contrast + missing installed themes."""
+    return theme.check_theme(spec)
+
+
+@mcp.tool()
+def apply_theme(spec: str, layout: bool = False, dry_run: bool = True) -> str:
+    """Build and apply a KDE Customizer theme spec (.toml path). Defaults to dry_run=True,
+    which shows the check result and the exact install script. layout=True also replaces
+    panels (needs the 'dangerous' tier). Real applies are snapshotted; undo_last restores
+    the previous theme live."""
+    return theme.apply_theme(spec, layout, dry_run)
 
 
 def main():

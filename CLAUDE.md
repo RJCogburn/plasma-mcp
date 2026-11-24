@@ -18,11 +18,13 @@ list_windows, focus_window, move_to_desktop, tile_window (verified live 2026-11-
 reuse it for any new KWin feature. Geometry after a tile/maximize updates asynchronously — re-read
 with list_windows after ~0.5 s. Test write tools on throwaway windows (Tk/kdialog), never the user's own.
 Fixed-size dialogs (kdialog --msgbox) ignore tile/maximize.
+Theming (tools/theme.py): current_theme, theme_guide, check_theme, apply_theme — shells out to `kdec`
+(KDE Customizer). apply snapshots THEME_FILES (+LAYOUT_FILES with layout=True, which needs the
+'dangerous' tier) and records reapply commands (plasma-apply-colorscheme/desktoptheme/cursortheme,
+/usr/lib/plasma-changeicons) that undo runs BEFORE copying files back, so the live desktop re-skins.
+Read paths + dry run verified 2026-11-23; real apply/undo round trip NOT yet run (changes the live desktop — ask first).
 NEXT (v1):
 2. Notifications: `notify`, `watch_notifications` (org.freedesktop.Notifications).
-3. Theming: `apply_theme` = wrap KDE Customizer (~/Desktop/Dev/kde-customizer, github RJCogburn/kde-customizer):
-   `kdec check` / `kdec apply SPEC --dry-run` first, real apply only after; snapshot the rc files it touches.
-   `kdec ai-guide` gives agents the spec format. Shell out to `kdec` rather than importing it.
 LATER: panels/widgets (plasmashell evaluateScript, `dangerous` tier), clipboard (klipper),
 shortcuts (kglobalaccel), event streaming, GNOME backend.
 
