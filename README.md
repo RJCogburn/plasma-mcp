@@ -168,3 +168,7 @@ uv run pytest
   through `snapshots.take` before changing anything.
 - Test write tools on throwaway windows (a Tk or `kdialog` window you open yourself),
   never on the user's own windows.
+
+## License
+
+MIT, see [LICENSE](LICENSE).

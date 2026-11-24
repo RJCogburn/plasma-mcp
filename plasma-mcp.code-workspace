@@ -5,7 +5,7 @@
     "python.testing.pytestEnabled": true,
     "python.testing.pytestArgs": ["tests"],
     "files.exclude": { "**/__pycache__": true, "*.egg-info": true, ".pytest_cache": true },
-    "search.exclude": { "reference/cmc": true, ".venv": true },
+    "search.exclude": { ".venv": true },
     "editor.rulers": [100],
     "[python]": { "editor.tabSize": 4 }
   },

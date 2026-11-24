@@ -4,7 +4,7 @@ KWin scripts can't return values to the caller of loadScript, so each run:
 1. exports a tiny D-Bus object on our own (unique) bus connection,
 2. loads a script whose body calls `reply(obj)` -> callDBus(<us>, ..., "Reply", JSON),
 3. waits for the reply, then unloads the script.
-Pattern ported from reference/cmc/automation.py (QtDBus there, dbus-next here).
+Same pattern as a long-running KWin focus watcher, but one-shot.
 """
 from __future__ import annotations
 
