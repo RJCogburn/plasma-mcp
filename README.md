@@ -164,7 +164,7 @@ uv run pytest
 ```
 
 - Project notes and conventions for coding agents: `CLAUDE.md`.
-- Every new tool must call `policy.require(<tier>)`, and every write must go through
-  `snapshots.take` before changing anything.
+- Every new tool must call `policy.require(<tier>)`, and every config write must go
+  through `snapshots.take` before changing anything.
 - Test write tools on throwaway windows (a Tk or `kdialog` window you open yourself),
   never on the user's own windows.
