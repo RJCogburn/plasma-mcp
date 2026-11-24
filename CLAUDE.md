@@ -9,7 +9,8 @@ KDE Plasma 6 (CachyOS, Plasma 6.8, Wayland) through D-Bus and KConfig — no scr
 - Write tools default to `dry_run=True`.
 - No synthetic keyboard/mouse input (ydotool/libei/RemoteDesktop portal) in v1.
 - Screenshots only via xdg-desktop-portal (user consents). Never `spectacle` desktop grabs.
-- KDE Do Not Disturb is deliberately ON on the dev machine — notifications won't show; don't change it.
+- Never change the user's Do Not Disturb setting. Test notifications with urgency='low', app_name filter,
+  and only watch notifications you sent yourself (filter by app_filter).
 
 ## Status / roadmap
 DONE: get_setting, set_setting (+dry run, snapshot), undo_last, media_status, media_play_pause,
@@ -27,8 +28,11 @@ user rc files — restoring only user rc files leaves the new theme active. Snap
 undo first re-applies the previous LnF package (never with --resetLayout).
 Live round trip (Midnight -> undo -> Origin600I Light) VERIFIED 2026-11-23: theme + all files byte-identical.
 Live apply tests change the user's desktop — ask first.
-NEXT (v1):
-2. Notifications: `notify`, `watch_notifications` (org.freedesktop.Notifications).
+Notifications (tools/notifications.py): notify, close_notification, notification_status (DND via the
+Inhibited property + plasmanotifyrc [DoNotDisturb] Until), watch_notifications (D-Bus BecomeMonitor on
+Notify calls; handler must return True so the monitor connection never replies). watch needs the
+'private' tier (off by default). Verified live 2026-11-23.
+v1 feature set DONE. Next candidates: packaging/README for others, event streaming.
 LATER: panels/widgets (plasmashell evaluateScript, `dangerous` tier), clipboard (klipper),
 shortcuts (kglobalaccel), event streaming, GNOME backend.
 

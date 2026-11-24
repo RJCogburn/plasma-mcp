@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from mcp.server.mcpserver import MCPServer
 
-from .tools import media, settings, theme, windows
+from .tools import media, notifications, settings, theme, windows
 
 mcp = MCPServer("plasma")
 
@@ -94,6 +94,35 @@ def apply_theme(spec: str, layout: bool = False, dry_run: bool = True) -> str:
     panels (needs the 'dangerous' tier). Real applies are snapshotted; undo_last restores
     the previous theme live."""
     return theme.apply_theme(spec, layout, dry_run)
+
+
+@mcp.tool()
+async def notify(summary: str, body: str = "", urgency: str = "normal",
+                 timeout_ms: int = -1, icon: str = "") -> int:
+    """Show a desktop notification; returns its id. urgency: low | normal | critical
+    (only critical pops up while Do Not Disturb is on — use it sparingly)."""
+    return await notifications.notify(summary, body, urgency=urgency,
+                                      timeout_ms=timeout_ms, icon=icon)
+
+
+@mcp.tool()
+async def close_notification(notification_id: int) -> str:
+    """Close a notification previously returned by notify."""
+    return await notifications.close_notification(notification_id)
+
+
+@mcp.tool()
+async def notification_status() -> dict:
+    """Notification server info and whether Do Not Disturb is on."""
+    return await notifications.notification_status()
+
+
+@mcp.tool()
+async def watch_notifications(seconds: float = 10.0, max_count: int = 20,
+                              app_filter: str | None = None) -> list[dict]:
+    """Collect notifications sent by ANY app for up to `seconds` (max 120). Reads private
+    content (chat messages etc.), so it needs the 'private' tier in ~/.config/plasma-mcp.toml."""
+    return await notifications.watch_notifications(seconds, max_count, app_filter)
 
 
 def main():

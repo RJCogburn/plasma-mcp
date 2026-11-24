@@ -3,7 +3,8 @@
     [tiers]
     read = true        # list/get tools
     write = true       # settings, theme, notifications (always snapshotted)
-    dangerous = false  # anything not undoable
+    dangerous = false  # anything not undoable (e.g. replacing panels)
+    private = false    # reading other apps' content (watch_notifications)
 """
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ import tomllib
 from pathlib import Path
 
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config")) / "plasma-mcp.toml"
-DEFAULTS = {"read": True, "write": True, "dangerous": False}
+DEFAULTS = {"read": True, "write": True, "dangerous": False, "private": False}
 
 
 class Denied(Exception):
