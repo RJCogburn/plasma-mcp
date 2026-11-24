@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from mcp.server.mcpserver import MCPServer
 
-from .tools import media, settings
+from .tools import media, settings, windows
 
 mcp = MCPServer("plasma")
 
@@ -41,6 +41,32 @@ async def media_status() -> list[dict]:
 async def media_play_pause(player: str) -> str:
     """Toggle play/pause on a player (name as returned by media_status)."""
     return await media.media_play_pause(player)
+
+
+@mcp.tool()
+async def list_windows() -> dict:
+    """List normal windows (id, app, caption, desktops, geometry, active/minimized) plus
+    the virtual desktops. Use the `id` with focus / move_to_desktop / tile."""
+    return await windows.list_windows()
+
+
+@mcp.tool()
+async def focus_window(window_id: str) -> dict:
+    """Activate a window (un-minimizes it and switches to its desktop)."""
+    return await windows.focus(window_id)
+
+
+@mcp.tool()
+async def move_to_desktop(window_id: str, desktop: str) -> dict:
+    """Move a window to a virtual desktop, given by name or 1-based number."""
+    return await windows.move_to_desktop(window_id, desktop)
+
+
+@mcp.tool()
+async def tile_window(window_id: str, mode: str) -> dict:
+    """Tile a window: left, right, top, bottom (quick tile halves), maximize, unmaximize.
+    Activates the window first."""
+    return await windows.tile(window_id, mode)
 
 
 def main():
